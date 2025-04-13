@@ -1,0 +1,54 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>C++ Algorithm Visualizer (Simulated)</title>
+  <style>
+    body { font-family: Arial, sans-serif; text-align: center; background: #f0f0f0; }
+    .bar-container { display: flex; justify-content: center; margin-top: 40px; }
+    .bar { width: 20px; margin: 0 5px; background: steelblue; transition: all 0.4s ease; }
+    .highlight { background: orange; }
+    button { margin: 20px; padding: 10px 20px; font-size: 16px; }
+  </style>
+</head>
+<body>
+  <h1>Algorithm Visualizer</h1>
+  <button onclick="bubbleSort()">Visualize Bubble Sort</button>
+  <div class="bar-container" id="bars"></div>
+
+  <script>
+    const container = document.getElementById("bars");
+    let values = [30, 80, 40, 60, 20, 70];
+
+    function render(values, i = -1, j = -1) {
+      container.innerHTML = "";
+      values.forEach((value, index) => {
+        const bar = document.createElement("div");
+        bar.style.height = value * 3 + "px";
+        bar.classList.add("bar");
+        if (index === i || index === j) bar.classList.add("highlight");
+        container.appendChild(bar);
+      });
+    }
+
+    async function bubbleSort() {
+      for (let i = 0; i < values.length - 1; i++) {
+        for (let j = 0; j < values.length - i - 1; j++) {
+          render(values, j, j + 1);
+          await new Promise((r) => setTimeout(r, 500));
+          if (values[j] > values[j + 1]) {
+            [values[j], values[j + 1]] = [values[j + 1], values[j]];
+            render(values, j, j + 1);
+            await new Promise((r) => setTimeout(r, 500));
+          }
+        }
+      }
+      render(values);
+    }
+
+    render(values);
+  </script>
+</body>
+</html>
